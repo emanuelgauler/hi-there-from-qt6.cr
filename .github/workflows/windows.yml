@@ -1,0 +1,55 @@
+name: Build Crystal Qt6 Windows
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Crystal
+        uses: crystal-lang/install-crystal@v1
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: "6.8.3"
+          arch: "win64_msvc2022_64"
+          modules: "qtsvg"
+
+      - name: Setup Qt variables
+        shell: pwsh
+        run: |
+          echo "CMAKE_PREFIX_PATH=$env:Qt6_DIR\.." >> $env:GITHUB_ENV
+          echo "Qt6_DIR=$env:Qt6_DIR" >> $env:GITHUB_ENV
+
+      - name: Install shards
+        shell: bash
+        run: shards install
+
+      - name: Build
+        shell: bash
+        run: |
+          crystal build src/app.cr \
+            --release \
+            -o app.exe
+
+      - name: Deploy Qt runtime
+        shell: pwsh
+        run: |
+          windeployqt app.exe
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-app
+          path: |
+            app.exe
+            *.dll
+            platforms/**
+            imageformats/**
+            iconengines/**
