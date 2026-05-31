@@ -1,0 +1,6 @@
+version: 2.0
+shards:
+  qt6:
+    git: https://github.com/djberg96/crystal-qt6.git
+    version: 0.11.0+git.commit.78ae3e15c27d4214ee6140c012e95b289dbb2a8f
+

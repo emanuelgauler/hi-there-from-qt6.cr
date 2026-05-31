@@ -1,0 +1,17 @@
+name: hi-there
+version: 0.1.0
+
+authors:
+  - Emanuel Gauler <emanuelgauler@gmail.com>
+
+targets:
+  hi-there:
+    main: src/hi_there.cr
+
+crystal: '>= 1.20.2'
+
+license: MIT
+
+dependencies:
+  qt6:
+    github: djberg96/crystal-qt6
