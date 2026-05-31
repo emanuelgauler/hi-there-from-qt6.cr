@@ -33,14 +33,13 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          crystal build src/app.cr \
-            --release \
-            -o app.exe
+          crystal build src/hi_there.cr \
+            --release -o hi-there.exe
 
       - name: Deploy Qt runtime
         shell: pwsh
         run: |
-          windeployqt app.exe
+          windeployqt hi-there.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
